@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<title>রিকশা সিমুলেটর · ফেজ ২</title>
+<style>
+:root{--hud:rgba(24,18,12,.66);--fg:#fff;--btn:rgba(255,255,255,.24);--btn-on:rgba(255,200,60,.8);color-scheme:dark}
+@media (prefers-color-scheme:light){:root{--hud:rgba(255,250,240,.78);--fg:#1c1712;--btn:rgba(30,20,10,.28);--btn-on:rgba(255,170,0,.85);color-scheme:light}}
+html,body{margin:0;height:100%;overflow:hidden;background:#15110e;touch-action:none;user-select:none;-webkit-user-select:none;font-family:"Hind Siliguri","Noto Sans Bengali",system-ui,sans-serif}
+canvas{display:block;position:fixed;inset:0;width:100%;height:100%}
+.hud{position:fixed;color:var(--fg);background:var(--hud);border-radius:14px;padding:6px 14px;font-weight:600}
+#spd{left:max(12px,env(safe-area-inset-left));top:max(12px,env(safe-area-inset-top));font-size:26px}
+#spd small{font-size:13px;opacity:.8;margin-left:4px}
+#loc{left:50%;transform:translateX(-50%);top:max(12px,env(safe-area-inset-top));font-size:15px}
+#mm{left:auto;bottom:auto;right:max(12px,env(safe-area-inset-right));top:calc(max(12px,env(safe-area-inset-top)) + 46px);width:120px;height:92px;border-radius:10px;opacity:.9}
+#pause{right:max(12px,env(safe-area-inset-right));top:max(12px,env(safe-area-inset-top));font-size:20px;border:0;cursor:pointer}
+#gq{right:max(12px,env(safe-area-inset-right));top:calc(max(12px,env(safe-area-inset-top)) + 146px);font-size:14px;border:0;cursor:pointer}
+#hint{left:50%;transform:translateX(-50%);bottom:max(22px,env(safe-area-inset-bottom));font-size:14px;transition:opacity 1s}
+.pad{position:fixed;bottom:calc(max(16px,env(safe-area-inset-bottom)) + 40px);display:flex;gap:12px}
+#padL{left:max(16px,env(safe-area-inset-left))}
+#padR{right:max(16px,env(safe-area-inset-right));flex-direction:column}
+.b{width:78px;height:78px;border-radius:50%;border:0;background:var(--btn);color:var(--fg);font:700 26px/1.1 inherit;touch-action:none}
+.b small{display:block;font-size:12px;font-weight:600}
+.b.on{background:var(--btn-on)}
+.b.s{width:58px;height:58px;font-size:22px}
+#padU{left:max(16px,env(safe-area-inset-left));bottom:calc(max(16px,env(safe-area-inset-bottom)) + 134px)}
+#menu{position:fixed;inset:0;display:none;align-items:center;justify-content:center;flex-direction:column;gap:12px;background:rgba(10,8,5,.68);color:#fff;text-align:center;padding:20px}
+#menu.show{display:flex}
+#menu h2{margin:0;font-size:30px}
+#menu p{margin:0;opacity:.85;font-size:15px;max-width:420px}
+#menu button{font:inherit;font-size:20px;padding:12px 30px;border-radius:12px;border:0;background:#ffc83c;color:#1c1712;cursor:pointer}
+#menu button.alt{background:rgba(255,255,255,.2);color:#fff;font-size:16px}
+#money{left:max(12px,env(safe-area-inset-left));top:calc(max(12px,env(safe-area-inset-top)) + 54px);font-size:18px}
+#trip{left:max(12px,env(safe-area-inset-left));top:calc(max(12px,env(safe-area-inset-top)) + 100px);font-size:16px;display:none;align-items:center;gap:8px}
+#trip.show{display:flex}
+#shift{left:50%;transform:translateX(-50%);top:calc(max(12px,env(safe-area-inset-top)) + 54px);font-size:13px;text-align:center;white-space:nowrap}
+#arr{display:inline-block;font-size:44px;line-height:1;color:#ffc83c}
+#td,#tn{white-space:nowrap}
+#tn{font-size:14px;opacity:.9}
+#toast{left:50%;transform:translateX(-50%);top:30%;font-size:19px;opacity:0;transition:opacity .4s;pointer-events:none;white-space:normal;max-width:88vw;text-align:center;line-height:1.4}
+#ask{position:fixed;left:50%;top:42%;transform:translate(-50%,-50%);display:none;flex-direction:column;align-items:center;gap:12px;background:var(--hud);color:var(--fg);border-radius:18px;padding:16px 22px;text-align:center}
+#ask.show{display:flex}
+#ask b{font-size:17px;max-width:80vw;line-height:1.4}
+#ask div{display:flex;gap:12px}
+#ask button{font:inherit;font-size:20px;padding:10px 28px;border-radius:12px;border:0;cursor:pointer;background:#ffc83c;color:#1c1712}
+#ask button.no{background:var(--btn);color:var(--fg)}
+#big{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(10,8,5,.82)}
+#big.show{display:flex}
+#bm{position:relative;inset:auto;border-radius:14px;box-shadow:0 0 0 2px rgba(255,255,255,.3)}
+#bx{right:max(14px,env(safe-area-inset-right));top:max(14px,env(safe-area-inset-top));font-size:22px;border:0}
+#evw{left:50%;transform:translateX(-50%);top:calc(max(12px,env(safe-area-inset-top)) + 86px);font-size:14px;text-align:center;white-space:nowrap;display:none;line-height:1.35;max-width:92vw;overflow:hidden;text-overflow:ellipsis;pointer-events:none}
+#evw.show{display:block}
+#evw small{display:block;font-size:12px;opacity:.9}
+#evw.near{background:rgba(198,40,40,.88);color:#fff}
+</style>
+</head>
+<body>
+<div class="hud" id="spd">০<small>কিমি/ঘণ্টা</small></div>
+<div class="hud" id="loc">🏠 উঠান</div>
+<button class="hud" id="pause">⏸</button>
+<button class="hud" id="gq">🎨 লো</button>
+<canvas id="mm" width="240" height="184"></canvas>
+<div class="hud" id="money">৳ ০</div>
+<div class="hud" id="trip"><span id="arr">▲</span><div><div id="td"></div><div id="tn"></div></div></div>
+<div class="hud" id="shift"></div>
+<div class="hud" id="evw"></div>
+<div class="hud" id="toast"></div>
+<div class="hud" id="hint">▲ চাপো · গলি ধরে বেরোও · ম্যাপের লাল চিহ্ন = বাড়ি</div>
+<div class="pad" id="padL"><button class="b" data-k="l">◀</button><button class="b" data-k="r">▶</button></div>
+<div class="pad" id="padR"><button class="b" data-k="g">▲<small>গ্যাস</small></button><button class="b" data-k="b">▼<small>ব্রেক</small></button></div>
+<div class="pad" id="padU"><button class="b s" data-k="h">📯<small>হর্ন</small></button><button class="b s" id="hood">🛺<small>হুড</small></button></div>
+<div id="big"><canvas id="bm"></canvas><button class="hud" id="bx">✕</button></div>
+<div id="ask"><b>🧍 যাত্রী তুলবে?</b><div><button id="askY">হ্যাঁ</button><button class="no" id="askN">না</button></div></div>
+<div id="menu" class="show">
+<h2>🛺 রিকশা সিমুলেটর</h2>
+<p>ফেজ ২: অসীম লুপিং ম্যাপ, ৪ ধরনের এলাকা (গ্রাম · শহর · রাজকীয় পাড়া · বসতি) — যতদূর খুশি চালাও, কোণার ম্যাপের লাল চিহ্ন ধরে বাড়ি ফেরো।</p>
+<p>W/↑ গ্যাস · S/↓ ব্রেক ও পিছনে · A D বা ← → ঘোরানো · H হর্ন · O হুড · P বিরতি</p>
+<p>রাস্তায় মাঝে মাঝে ঘটনা ঘটে — দুর্ঘটনা, অবরোধ, মিছিল, বর্ষাত্রী, মেরামত, জলাবদ্ধতা, গরু-ছাগল, বাচ্চাদের ক্রিকেট। উপরের সতর্কবার্তা আর ম্যাপের আইকন দেখে চলো; যাত্রী থাকলে বন্ধ রাস্তা এড়িয়ে ঘুরে গেলে বাড়তি বখশিশ। ম্যাপে প্রতিটা এলাকা আলাদা রঙে, বাজারের নাম লেখা।</p>
+<p>রাস্তার ধারে দাঁড়ানো যাত্রীর কাছে গেলে তুলতে পারো — গন্তব্যে পৌঁছালে ভাড়া পাবে। মিনিম্যাপে ট্যাপ (বা M) করলে বড় ম্যাপ খুলবে।</p>
+<p id="gl"></p>
+<button id="go">চালু করো</button>
+<button class="alt" id="gb">🔧 গ্যারেজ</button>
+<button class="alt" id="re">আবার শুরু থেকে</button>
+</div>
+<script type="module" src="/src/main.js"></script>
+</body>
+</html>
