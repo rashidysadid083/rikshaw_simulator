@@ -32,7 +32,8 @@ function build(){
   NQ=HQ;
 }
 /* ---- তৈরি/সরানো ---- */
-const okPos=(x,z)=>{const d=Math.hypot(x-S.x,z-S.z);return d>24&&d<115&&!PD.some(o=>Math.abs(o.x-x)<1.2&&Math.abs(o.z-z)<1.2);};
+const carAt=(v,x,z,m)=>{const dx=x-v.x,dz=z-v.z;return Math.abs(dx*v.hx+dz*v.hz)<v.len/2+m&&Math.abs(-dx*v.hz+dz*v.hx)<v.wid/2+m;};   // গাড়ির বক্সের (m মার্জিনসহ) ভেতরে?
+const okPos=(x,z)=>{const d=Math.hypot(x-S.x,z-S.z);return d>24&&d<115&&!PD.some(o=>Math.abs(o.x-x)<1.2&&Math.abs(o.z-z)<1.2)&&!V.some(v=>carAt(v,x,z,.9));};   // গাড়ি থাকলে অন্য জায়গা
 function H(x,z,opt,r){
   const L=MB.rnd(),o=Object.assign({x,z,y:0,yaw:0,tyaw:0,ph:rr(0,6),sp:rr(.95,1.4),sc:1,gm:L.g,sk:L.sk,c1:L.c1,lg:L.leg,pz:0,mode:'stand',t:rr(3,10),ox:0,oz:0,wt:0,sx:0,mv:0,nl:0,prop:0,gd:0xffffff,a:null,ck:r.cx+','+r.cz,id:idc++,acc:0,lod:0,pt:null,ln:null,tk:0,ps:0},opt);
   o.yaw=o.tyaw;if(o.a)o.a.u=(o.a.u|0)+1;PD.push(o);return o;
@@ -143,6 +144,14 @@ function spawnOne(){
   }
 }
 /* ---- আচরণ ---- */
+function vehAhead(o){   // সামনে/পাশে গাড়ি এসে পড়লে মানুষ থামবে (গাড়ি আসছে মানে গতির সাথে বাড়তি দূরত্ব)
+  for(const v of V){const dx=o.x-v.x,dz=o.z-v.z;if(Math.abs(dx)>14||Math.abs(dz)>14)continue;const lz=dx*v.hx+dz*v.hz,lx=-dx*v.hz+dz*v.hx;
+    if(Math.abs(lx)<v.wid/2+.9&&lz>-v.len/2-.9&&lz<v.len/2+.9+Math.max(0,v.v)*.9)return 1;}
+  return 0;
+}
+function nudge(o,dx,dz){   // ওভারল্যাপ ঠেলে সরানো: হাঁটার লাইনের স্থানাঙ্কও সরাও
+  o.x+=dx;o.z+=dz;if(o.k)return;if(o.ln&&(o.mode==='walk'||o.mode==='cross'||o.mode==='pause')){if(o.ln.ax){o.f+=dx;o.p+=dz;}else{o.f+=dz;o.p+=dx;}}
+}
 const clearRoad=(x,z)=>!V.some(v=>v.v>.5&&Math.abs(v.x-x)<18&&Math.abs(v.z-z)<18);
 function walk(o,dt){
   const L=o.ln;if(o.wt>0){o.mv=0;return;}o.mv=1;
@@ -163,6 +172,7 @@ function play(o,dt){
 }
 function upd(o,dt){
   o.t-=dt;o.sx-=dt;if(o.wt>0)o.wt-=dt;const m=o.mode;
+  if((m==='walk'||m==='cross'||m==='play')&&vehAhead(o))o.wt=Math.max(o.wt,.45);
   if(m==='walk')walk(o,dt);else if(m==='cross')cross(o,dt);else if(m==='play')play(o,dt);
   else{
     o.mv=0;
@@ -276,6 +286,6 @@ function perf(f,dt){   // FPS কমলে NPC কমাও; অনেকক্�
   else if(f<.02){hiT+=dt;lowT=0;if(hiT>10){hiT=0;cap=Math.min(MAXN,cap+2);}}
   else{lowT=0;hiT=0;}
 }
-return{step,draw,reset,perf};
+return{step,draw,reset,perf,ANI,nudge};
 })();
 export { NPC };

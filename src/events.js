@@ -5,13 +5,13 @@ import { BS, HB, W, WM, area, hash, mainRow, mkRng } from './world.js';
 import { MB, S } from './vehicles.js';
 import { trip } from './passengers.js';
 import { toast } from './ui.js';
-import { LM, VG } from './traffic.js';
+import { LM, V, VG } from './traffic.js';
 
 /* ---------- রাস্তার ঘটনা: ইভেন্ট ম্যানেজার (সিড-ঠিক-করা; প্লেয়ারের ২০০–৫০০ মি-এর মধ্যে একসাথে সর্বোচ্চ ২টা; সব কার্টুন-স্টাইলে নিরীহ) ---------- */
 const EV=(()=>{
 const EVL=[],MAXE=2,RMIN=200,RMAX=500,RDEL=580,EP=240;
 let SEED=loadEventSeed();
-let clk=0,rt=0,hT=0,ver=0,EC=new Map(),hudTxt='';const GONE=[];   // মেয়াদ-শেষ ঘটনার জায়গা: একই জায়গায় আবার না আসার জন্য
+let clk=0,rt=0,hT=0,ver=0,EC=new Map(),hudTxt='';const GONE=[],REJ=new Map();   // মেয়াদ-শেষ ঘটনার জায়গা: একই জায়গায় আবার না আসার জন্য
 const KD={
  accident:{ic:'🚗',n:'ছোট দুর্ঘটনা',al:'দুই গাড়ি ঠেকে আছে, ভিড়',cost:90,w:1,life:65},
  blockade:{ic:'🚧',n:'অবরোধ',al:'রাস্তা বন্ধ',cost:Infinity,cl:1,w:.9},
@@ -159,7 +159,14 @@ function cand(i,j,ep){
  if(Math.hypot(x,z)<140)return null;
  return{id:i+','+j+','+ax+','+ep,i,j,ax,k,L,a,x,z,pr};}
 function add(c){const d=KD[c.k],e=Object.assign({d,cl:!!d.cl,cost:d.cost,ob:[],g:new T.Group(),dd:999,wn:0,life:d.life||0,born:clk},c);
- BLD[c.k](e,mkRng(hash(c.i,c.j,SEED^c.ax)));e.g.rotation.y=e.ax?0:Math.PI/2;e.g.visible=false;scene.add(e.g);EVL.push(e);updOb(e);rebuild();}
+ BLD[c.k](e,mkRng(hash(c.i,c.j,SEED^c.ax)));updOb(e);
+ if(vehIn(e)){e.g.traverse(o=>{if(o.geometry&&!o.isSprite&&!o.geometry.userData.keep)o.geometry.dispose();});REJ.set(c.id,clk+6);return 0;}   // গাড়ি আছে → অন্য জায়গা বেছে নেবে
+ e.g.rotation.y=e.ax?0:Math.PI/2;e.g.visible=false;scene.add(e.g);EVL.push(e);rebuild();return 1;}
+function vehIn(e){   // জন্মানোর জায়গায় (বাধা-বৃত্ত বা পানির এলাকায়) কোনো গাড়ি আছে কি?
+ for(const v of V){if(Math.abs(v.x-e.x)>70||Math.abs(v.z-e.z)>70)continue;
+  for(const o of e.ob){const dx=o.x-v.x,dz=o.z-v.z,lz=dx*v.hx+dz*v.hz,lx=-dx*v.hz+dz*v.hx,cz=Math.max(-v.len/2,Math.min(v.len/2,lz)),cx=Math.max(-v.wid/2,Math.min(v.wid/2,lx));if(Math.hypot(lz-cz,lx-cx)<o.r+.6)return 1;}
+  if(e.sz){const q=lc(e,v.x,v.z);if(Math.abs(q[0])<e.sz[0]+v.len/2&&Math.abs(q[1])<e.sz[1]+v.len/2)return 1;}}
+ return 0;}
 function drop(q){const e=EVL[q];scene.remove(e.g);e.g.traverse(o=>{if(o.geometry&&!o.isSprite&&!o.geometry.userData.keep)o.geometry.dispose();});EVL.splice(q,1);rebuild();}
 function rebuild(){ver++;EC=new Map();for(const e of EVL){const k=e.ax+'|'+e.i+'|'+e.j;EC.set(k,(EC.get(k)||0)+e.cost);}}
 function updOb(e){for(const o of e.ob){const p=wp(e,o.u,o.l);o.x=p[0];o.z=p[1];}}
@@ -167,10 +174,10 @@ function refresh(){
  const ep=(clk/EP)|0;
  for(let q=EVL.length-1;q>=0;q--){const e=EVL[q];e.dd=Math.hypot(e.x-S.x,e.z-S.z);if(e.dd>RDEL){drop(q);continue;}if(e.life&&clk-e.born>=e.life){GONE.push({x:e.x,z:e.z});if(GONE.length>6)GONE.shift();drop(q);}}
  if(EVL.length>=MAXE)return;
- const pi=Math.round((S.x+HB)/BS),pj=Math.round((S.z+HB)/BS);let best=null;
+ const pi=Math.round((S.x+HB)/BS),pj=Math.round((S.z+HB)/BS);const cs=[];
  for(let j=pj-7;j<=pj+7;j++)for(let i=pi-7;i<=pi+7;i++){const c=cand(i,j,ep);if(!c)continue;const d=Math.hypot(c.x-S.x,c.z-S.z);if(d<RMIN||d>RMAX)continue;
-  if(EVL.some(e=>e.id===c.id||Math.hypot(e.x-c.x,e.z-c.z)<110)||GONE.some(g=>Math.hypot(g.x-c.x,g.z-c.z)<110))continue;if(!best||c.pr<best.pr)best=c;}
- if(best)add(best);}
+  if(EVL.some(e=>e.id===c.id||Math.hypot(e.x-c.x,e.z-c.z)<110)||GONE.some(g=>Math.hypot(g.x-c.x,g.z-c.z)<110))continue;if(REJ.get(c.id)>clk)continue;cs.push(c);}
+ cs.sort((a,b)=>a.pr-b.pr);for(let q=0;q<3&&q<cs.length;q++)if(add(cs[q]))break;}
 function hud(){
  const el=$('evw'),L=EVL.filter(e=>e.dd<RMAX+60).sort((a,b)=>a.dd-b.dd);
  if(!L.length){if(hudTxt){hudTxt='';el.className='hud';}return;}
@@ -185,7 +192,7 @@ function leg(px,pz,nx,nz){let p=0;for(const e of EVL){
  if(e.ax){if(Math.abs(px-e.L)>13||Math.abs(nx-e.L)>2)continue;if((e.a-pz)*(e.a-nz)<0)p+=e.cost;}
  else{if(Math.abs(pz-e.L)>13||Math.abs(nz-e.L)>2)continue;if((e.a-px)*(e.a-nx)<0)p+=e.cost;}}return p;}
 return{list:EVL,n:()=>EVL.length,ver:()=>ver,ec,seg,leg,
- reset(){while(EVL.length)drop(0);GONE.length=0;clk=0;rt=0;hT=0;hudTxt='';const el=$('evw');if(el)el.className='hud';refresh();refresh();},
+ reset(){while(EVL.length)drop(0);GONE.length=0;REJ.clear();clk=0;rt=0;hT=0;hudTxt='';const el=$('evw');if(el)el.className='hud';refresh();refresh();},
  step(dt){clk+=dt;if((rt-=dt)<=0){rt=1;refresh();}
   for(const e of EVL){e.dd=Math.hypot(e.x-S.x,e.z-S.z);if(e.dd<200){if(e.upd&&e.dd<180)e.upd(dt);updOb(e);}
    if(!e.wn&&e.dd<300){e.wn=1;toast((e.cl?'⛔ ':'⚠️ ')+e.d.ic+' সামনে '+e.d.n+' — '+e.d.al);}}
@@ -195,6 +202,7 @@ return{list:EVL,n:()=>EVL.length,ver:()=>ver,ec,seg,leg,
   for(const o of e.ob){const dx=o.x-v.x,dz=o.z-v.z,fw=dx*v.hx+dz*v.hz;if(fw<=0||fw>25||Math.abs(-dx*v.hz+dz*v.hx)>v.wid/2+o.r+.5)continue;const q=fw-v.len/2-o.r-1.2;if(q<m)m=q;}}
   if(m<3&&v.v<.4){v.eb=(v.eb||0)+dt;if(v.eb>7&&Math.hypot(v.x-S.x,v.z-S.z)>45)v.dead=1;}else if(v.eb)v.eb=Math.max(0,v.eb-dt);return m;},
  collide(s,R){for(const e of EVL){if(e.dd>70)continue;for(const o of e.ob){const dx=s.x-o.x,dz=s.z-o.z,rr=R+o.r,d2=dx*dx+dz*dz;if(d2<rr*rr&&d2>1e-6){const d=Math.sqrt(d2);s.x+=dx/d*(rr-d);s.z+=dz/d*(rr-d);s.v*=.92;}}}},
+ hit(x,z,r){for(const e of EVL){if(Math.abs(e.x-x)>70||Math.abs(e.z-z)>70)continue;for(const o of e.ob){const dx=o.x-x,dz=o.z-z,rr=o.r+r;if(dx*dx+dz*dz<rr*rr)return 1;}if(e.sz){const q=lc(e,x,z);if(Math.abs(q[0])<e.sz[0]+r&&Math.abs(q[1])<e.sz[1]+r)return 1;}}return 0;},
  drag(x,z){for(const e of EVL){if(!e.sz||e.dd>40)continue;const q=lc(e,x,z);if(Math.abs(q[0])<e.sz[0]&&Math.abs(q[1])<e.sz[1]){if(!e.wd){e.wd=1;toast('🌊 রাস্তায় পানি! আস্তে চালাও');}return .95;}}return 0;},
  slow(x,z){for(const e of EVL){if(!e.sz||Math.abs(e.x-x)>25||Math.abs(e.z-z)>25)continue;const q=lc(e,x,z);if(Math.abs(q[0])<e.sz[0]&&Math.abs(q[1])<e.sz[1])return .35;}return 1;}};
 })();

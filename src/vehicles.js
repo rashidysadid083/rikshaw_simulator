@@ -51,11 +51,22 @@ const MB=(()=>{
   if(!lo)P.push(bx(0xf2f2ea,0,.55,o.hl+.075,.45,.13,.03),bx(0xf2f2ea,0,.55,-o.hl-.075,.45,.13,.03));
   if(po)Lp.push(bx(0xff1744,-.3,1.65,-.1,.5,.12,.3),bx(0x2979ff,.3,1.65,-.1,.5,.12,.3));if(am)Lp.push(bx(0xff1744,0,2.62,-.5,.8,.14,.35));};
  /* বাংলাদেশি বাস: সারি জানালা, সামনে গন্তব্য-ফলক (বাংলা) */
- const dsT=mk2(512,512,(g,w,h)=>{g.fillStyle='#111';g.fillRect(0,h-64,w,64);g.fillStyle='#ffb300';g.font='bold 40px Hind Siliguri, Noto Sans Bengali, sans-serif';g.textAlign='center';g.textBaseline='middle';g.fillText('গাবতলী ⇄ সদরঘাট',w/2,h-32);});
- const bus=(P,Lp,lo)=>{P.push(ex(0xf2f2f2,[[-5.5,.55],[-5.5,3.1],[5.1,3.1],[5.5,2.7],[5.5,.55]],2.5,lo),bx(0x37474f,0,.7,0,2.46,.3,10.9),bx(GL,0,2.1,5.56,2.15,.75,.05),bx(GL,0,2.2,-5.56,2.15,.75,.05));
+ const dsT=mk2(512,512,(g,w,h)=>{g.fillStyle='#111';g.fillRect(0,h-64,w,64);g.fillStyle='#ffb300';g.font='bold 40px Hind Siliguri, Noto Sans Bengali, sans-serif';g.textAlign='center';g.textBaseline='middle';g.fillText('গাবতলী ⇄ সদরঘাট',w/2,h-32);
+  [['বিআরটিসি','#b71c1c'],['বিআরটিসি ডবল ডেকার','#b71c1c'],['আলম এশিয়া','#0d47a1'],['সৌখিন','#1b5e20'],['হানিফ','#e65100']].forEach(([t,c],i)=>{const y=h-64*(i+2);g.fillStyle=c;g.fillRect(0,y,w,64);g.fillStyle='#fff';g.fillRect(0,y+4,w,3);g.fillRect(0,y+57,w,3);g.font='bold 38px Hind Siliguri, Noto Sans Bengali, sans-serif';g.fillText(t,w/2,y+34);});});   // সারি ১–৫: বাসের গায়ের নাম
+  /* বাসের সামনের গন্তব্য-ফলক + দুই পাশে কোম্পানির নাম: একই অ্যাটলাস (সারি 0 = ফলক, row = নামের সারি) */
+ const busX=(row,ys,zs,yn,len,xs)=>{const pls=[],q=(w,h,ry,x,y,z,r)=>{const g=new T.PlaneGeometry(w,h).toNonIndexed(),u=g.attributes.uv;for(let i=0;i<u.count;i++)u.setY(i,(u.getY(i)+r)/8);g.rotateY(ry);g.translate(x,y,z);pls.push(g);};
+  q(1.8,.22,0,0,ys,zs,0);q(len,.55,Math.PI/2,xs,yn,0,row);q(len,.55,-Math.PI/2,-xs,yn,0,row);
+  const n=pls.reduce((a,g)=>a+g.attributes.position.count,0),P=new Float32Array(n*3),U=new Float32Array(n*2);let o=0;pls.forEach(g=>{P.set(g.attributes.position.array,o*3);U.set(g.attributes.uv.array,o*2);o+=g.attributes.position.count;g.dispose();});
+  const out=new T.BufferGeometry();out.setAttribute('position',new T.BufferAttribute(P,3));out.setAttribute('uv',new T.BufferAttribute(U,2));return out;};
+ /* ডবল ডেকার: দুই তলা, দুই সারি জানালা */
+ const busDD=(P,Lp,lo,row)=>{P.push(ex(0xf2f2f2,[[-5.4,.55],[-5.4,4.3],[4.9,4.3],[5.3,3.9],[5.3,.55]],2.5,lo),bx(0x37474f,0,.7,0,2.46,.3,10.9),bx(GL,0,1.55,5.31,2.1,.75,.05),bx(GL,0,3.3,5.31,2.1,.75,.05),bx(GL,0,1.6,-5.43,2.1,.7,.05),bx(GL,0,3.3,-5.43,2.1,.7,.05));
+  for(let i=0;i<7;i++)for(const s of[-1,1])P.push(bx(GL,s*1.27,1.5,-4.3+i*1.45,.05,.75,1.15),bx(GL,s*1.27,3.3,-4.3+i*1.45,.05,.75,1.15));
+  for(const s of[-1,1]){wl(P,s*1.25,3.6,.5,.3,lo);wl(P,s*1.25,-3.6,.5,.3,lo);Lp.push(bx(0xfff2c8,s*.85,.95,5.32,.4,.18,.08),bx(0xc62828,s*.85,.95,-5.42,.4,.18,.08));}
+  return busX(row,3.82,5.34,2.4,5.8,1.262);};
+ const bus=(P,Lp,lo,dd,row)=>{if(dd)return busDD(P,Lp,lo,row);P.push(ex(0xf2f2f2,[[-5.5,.55],[-5.5,3.1],[5.1,3.1],[5.5,2.7],[5.5,.55]],2.5,lo),bx(0x37474f,0,.7,0,2.46,.3,10.9),bx(GL,0,2.1,5.56,2.15,.75,.05),bx(GL,0,2.2,-5.56,2.15,.75,.05));
   for(let i=0;i<7;i++)for(const s of[-1,1])P.push(bx(GL,s*1.27,2.15,-4.3+i*1.45,.05,.8,1.15));
   for(const s of[-1,1]){wl(P,s*1.25,3.6,.5,.3,lo);wl(P,s*1.25,-3.6,.5,.3,lo);Lp.push(bx(0xfff2c8,s*.85,.95,5.57,.4,.18,.08),bx(0xc62828,s*.85,.95,-5.57,.4,.18,.08));}
-  const pl=new T.PlaneGeometry(1.8,.22),u=pl.attributes.uv;for(let i=0;i<u.count;i++)u.setY(i,u.getY(i)/8);pl.translate(0,2.6,5.6);return pl;};
+  return busX(row,2.6,5.6,1.3,5.8,1.262);};
  /* ট্রাক: আলাদা ক্যাব, কাঠের পাটা, রঙিন নকশা */
  const truck=(P,Lp,lo)=>{P.push(bx(0x2a2a2a,0,.75,-.4,2.2,.35,6.6),bx(0x7a5a3a,0,.98,-1.3,2.4,.12,4.8),ex(0xf2f2f2,[[1.25,.9],[1.25,2.55],[2.55,2.55],[2.95,2],[3.7,1.9],[3.7,.9]],2.4,lo),wsh([2.95,2],[2.55,2.55],2.2),bx(0x8a6a44,0,1.6,-3.7,2.4,1.2,.1),bx(0x8a6a44,0,1.9,1.15,2.4,1.6,.1),bx(0x2a2a2a,0,.7,3.75,2.4,.2,.15));
   for(const s of[-1,1]){P.push(bx(GL,s*1.21,2.2,1.9,.06,.6,.9),bx(0xf2f2f2,s*1.2,2.4,-1.3,.1,.4,4.8));
@@ -70,9 +81,31 @@ const MB=(()=>{
   P.push(bx(0x1f8a4c,0,.55,-.2,1.5,.12,2.2),bx(0xc62828,0,.78,-.6,1.1,.22,.8),bx(0xc62828,0,1.05,-.98,1.1,.5,.12),bx(0xe53935,0,1.88,-.35,1.5,.06,1.7),bx(0xcccccc,0,.8,1.15,.06,.8,.06),bx(0xcccccc,0,1.2,1.15,.9,.05,.05),bx(0x222222,0,.9,.5,.3,.08,.3));
   for(const s of[-1,1])P.push(ex(0xe53935,[[-1,.8],[-1,1.5],[-.55,1.85],[.2,1.85],[.55,1.5],[.55,.8]],.2,lo).g?{g:ex(0xe53935,[[-1,.8],[-1,1.5],[-.55,1.85],[.2,1.85],[.55,1.5],[.55,.8]],.2,lo).g.clone().translate(s*.62,0,0),c:0xe53935}:0);
   Lp.push(bx(0xfff2c8,0,.95,1.2,.12,.1,.06));P.push(...sh(RK(),lo,0,.05,.5,0,-1.06,-.95));};
+  /* সিএনজি অটো-রিকশা: সবুজ, খাঁচা-ঘেরা যাত্রী-কক্ষ, সামনে ১ চাকা */
+ const cng=(P,Lp,lo)=>{const G=0x2e9e4f,K=0x4a4f52,SE=0x3a3a3a;wl(P,0,1.15,.27,.12,lo);wl(P,-.62,-.75,.28,.16,lo);wl(P,.62,-.75,.28,.16,lo);
+  P.push(bx(0x2b2b2b,0,.36,0,1.1,.12,2.5),bx(G,0,.7,-.15,1.3,.55,2.1),bx(G,0,.75,1.15,.8,.55,.6),bx(G,0,1.78,-.25,1.36,.07,2.0),bx(GL,0,1.3,.85,1.2,.62,.04),bx(K,-.62,1.25,.8,.05,1.05,.05),bx(K,.62,1.25,.8,.05,1.05,.05),
+   bx(SE,0,.98,-.7,1.1,.1,.5),bx(SE,0,1.2,-1.0,1.1,.4,.08),bx(SE,0,.9,.35,.6,.1,.4));
+  for(const s of[-1,1]){for(const z of[-1.1,-.7,-.3,.1,.5])P.push(bx(K,s*.66,1.3,z,.03,.95,.03));P.push(bx(K,s*.66,.98,-.25,.03,.03,1.75),bx(K,s*.66,1.7,-.25,.03,.03,1.75));}
+  for(const x of[-.6,-.3,0,.3,.6])P.push(bx(K,x,1.3,-1.18,.03,.95,.03));P.push(bx(K,0,.98,-1.18,1.3,.03,.03),bx(K,0,1.7,-1.18,1.3,.03,.03));
+  Lp.push(bx(0xfff2c8,0,.82,1.46,.22,.16,.08),bx(0xc62828,-.5,.8,-1.22,.2,.12,.06),bx(0xc62828,.5,.8,-1.22,.2,.12,.06));
+  P.push(...sh({g:0,sk:0xb98458,top:0x6e7f5e,bot:0x37474f,leg:0x37474f,hair:0x1c1a18},lo,0,.05,.35,0,-.9,-1.2));};
+ /* অটো (ই-রিকশা / ইজিবাইক): খোলা পাশ, ছাউনি (রঙ instanceColor), ৩ চাকা */
+ const eauto=(P,Lp,lo)=>{const D=0x2b2b2b,SE=0x23395d;wl(P,0,1.0,.28,.1,lo);wl(P,-.5,-.9,.28,.12,lo);wl(P,.5,-.9,.28,.12,lo);
+  P.push(bx(D,0,.4,0,1.0,.12,2.6),bx(0xf2f2f2,0,.68,1.0,.85,.55,.7),bx(0xf2f2f2,0,.55,-.45,1.1,.1,1.7),bx(SE,0,.78,-.55,1.0,.14,1.2),bx(SE,0,1.05,-1.12,1.0,.5,.08),bx(SE,0,.7,.35,.5,.1,.4),bx(0xf2f2f2,0,1.95,-.1,1.2,.07,2.5),bx(GL,0,1.45,.75,.95,.55,.04));
+  for(const s of[-1,1])P.push(bx(0x777777,s*.58,1.4,.7,.04,1.1,.04),bx(0x777777,s*.58,1.4,-.25,.04,1.1,.04),bx(0x777777,s*.58,1.4,-1.2,.04,1.1,.04));
+  Lp.push(bx(0xfff2c8,0,.85,1.38,.25,.14,.08),bx(0xc62828,-.4,.7,-1.35,.16,.1,.06),bx(0xc62828,.4,.7,-1.35,.16,.1,.06));
+  P.push(...sh({g:0,sk:0xb98458,top:0x8a8f99,bot:0x37474f,leg:0x37474f,hair:0x1c1a18},lo,0,-.15,.4,0,-.9,-1.1));};
+ /* সাইকেল + আরোহী */
+ const bicycle=(P,Lp,lo)=>{const F=0x2d3a4a;wl(P,0,.8,.34,.04,lo);wl(P,0,-.8,.34,.04,lo);
+  P.push(bx(F,0,.72,.1,.04,.04,.9),bx(F,0,.55,.3,.04,.04,.7,.6),bx(F,0,.6,-.35,.04,.55,.04,.15),bx(F,0,.6,.78,.03,.6,.03,-.2),bx(0x222222,0,1.0,.72,.5,.04,.04),bx(0x222222,0,.9,-.4,.1,.05,.22));
+  Lp.push(bx(0xfff2c8,0,.95,.8,.1,.1,.06),bx(0xc62828,0,.7,-.88,.1,.08,.05));
+  P.push(...sh({g:0,sk:0xb98458,top:0x7e9a7e,bot:0x3e4a5a,leg:0x3e4a5a,hair:0x1c1a18},lo,0,.02,-.38,0,-.85,-.8));};
+ /* সাইকেল-রিকশা, পেছনে ২ জন যাত্রী (শাড়ি পরা নারী + পুরুষ) */
+ const rickP=(P,Lp,lo)=>{rick(P,Lp,lo);
+  P.push(...sh({g:3,sk:0xc68642,top:0xb04a4a,bot:0xb04a4a,leg:0xc68642,hair:0x1c1a18},lo,-.28,0,-.72,0,-.4,-1.2),...sh({g:0,sk:0xb98458,top:0x7e9a7e,bot:0x37474f,leg:0x37474f,hair:0x1c1a18},lo,.28,0,-.72,0,-.4,-1.2));};
  const veh=(i,lo)=>{const P=[],Lp=[];let x=null;
   if(i===0)car(P,Lp,'sedan',lo,0xf2f2f2);else if(i===5)car(P,Lp,'suv',lo,0xf2f2f2);else if(i===6)car(P,Lp,'sedan',lo,0xf5f5f5,1);else if(i===7)car(P,Lp,'van',lo,0xf5f5f5,0,1);
-  else if(i===3)x=bus(P,Lp,lo);else if(i===4)truck(P,Lp,lo);else if(i===1)bike(P,Lp,lo);else rick(P,Lp,lo);
+  else if(i===3)x=bus(P,Lp,lo,0,1);else if(i===8)x=bus(P,Lp,lo,1,2);else if(i===9)x=bus(P,Lp,lo,0,3);else if(i===10)x=bus(P,Lp,lo,0,4);else if(i===11)x=bus(P,Lp,lo,0,5);else if(i===12)cng(P,Lp,lo);else if(i===13)eauto(P,Lp,lo);else if(i===14)bicycle(P,Lp,lo);else if(i===15)rickP(P,Lp,lo);else if(i===4)truck(P,Lp,lo);else if(i===1)bike(P,Lp,lo);else rick(P,Lp,lo);
   return{b:merge(P),l:merge(Lp,1),x};};
  /* পথচারী: ১০টা InstancedMesh (মাথা, ২ হাত, ২ পা, ৪ পোশাক-ধরন); হাঁটার সময় হাত-পা দোলে */
  let PM=null,PQ=-1;

@@ -15,21 +15,29 @@ function nextZ(z,d){   // পরের মোড় (গ্রিড লাই�
 }
 const B_=(x,y,z,sx,sy,sz,c)=>[0,x,y,z,sx,sy,sz,c,0],wh=(x,z,r,w)=>B_(x,r,z,w||.22,r*2,r*2,0x151515),WG=0xf2f2f2,GL_=0x37474f;
 const VT=[
-{len:4.2,wid:1.8,vm:11,w:.28,tint:[0xe53935,0x1e88e5,0xfdd835,0x43a047,0xffffff,0x90a4ae,0x8e24aa,0xf57c00],g:[B_(0,.6,0,1.8,.5,4.2,WG),B_(0,1.1,-.2,1.6,.5,2.2,WG),B_(0,1.15,-.2,1.64,.28,1.9,GL_),
+{len:4.2,wid:1.8,vm:11,w:.12,tint:[0xe53935,0x1e88e5,0xfdd835,0x43a047,0xffffff,0x90a4ae,0x8e24aa,0xf57c00],g:[B_(0,.6,0,1.8,.5,4.2,WG),B_(0,1.1,-.2,1.6,.5,2.2,WG),B_(0,1.15,-.2,1.64,.28,1.9,GL_),
   wh(-.9,1.35,.35),wh(.9,1.35,.35),wh(-.9,-1.35,.35),wh(.9,-1.35,.35),B_(-.6,.7,2.12,.4,.18,.06,0xffe9a0),B_(.6,.7,2.12,.4,.18,.06,0xffe9a0),B_(-.6,.7,-2.12,.4,.18,.06,0xd32f2f),B_(.6,.7,-2.12,.4,.18,.06,0xd32f2f)]},
-{len:2,wid:.7,vm:11,w:.18,g:[B_(0,.33,.75,.12,.66,.66,0x151515),B_(0,.33,-.75,.12,.66,.66,0x151515),B_(0,.75,0,.3,.35,1.2,0xc62828),B_(0,1.2,-.1,.34,.6,.3,0x1565c0),B_(0,1.65,-.05,.26,.26,.26,0xc68642),B_(0,1.05,.5,.7,.06,.06,0x222222)]},
-{len:2.4,wid:1.4,vm:4,w:.14,g:[B_(0,.6,-.4,1.2,.15,1.1,0xc62828),B_(0,.95,-.95,1.2,.6,.1,0xc62828),B_(0,1.65,-.5,1.3,.08,1.5,0xe53935),B_(-.6,1.15,.1,.06,1,.06,0xcccccc),B_(.6,1.15,.1,.06,1,.06,0xcccccc),
+{len:2,wid:.7,vm:11,w:.14,g:[B_(0,.33,.75,.12,.66,.66,0x151515),B_(0,.33,-.75,.12,.66,.66,0x151515),B_(0,.75,0,.3,.35,1.2,0xc62828),B_(0,1.2,-.1,.34,.6,.3,0x1565c0),B_(0,1.65,-.05,.26,.26,.26,0xc68642),B_(0,1.05,.5,.7,.06,.06,0x222222)]},
+{len:2.4,wid:1.4,vm:4,w:.07,g:[B_(0,.6,-.4,1.2,.15,1.1,0xc62828),B_(0,.95,-.95,1.2,.6,.1,0xc62828),B_(0,1.65,-.5,1.3,.08,1.5,0xe53935),B_(-.6,1.15,.1,.06,1,.06,0xcccccc),B_(.6,1.15,.1,.06,1,.06,0xcccccc),
   B_(0,1.1,.35,.4,.6,.3,0x1565c0),B_(0,1.55,.35,.24,.24,.24,0xc68642),B_(0,.5,.2,.5,.1,1.8,0x333333),B_(0,.4,1,.1,.8,.8,0x151515),B_(-.7,.4,-.6,.1,.8,.8,0x151515),B_(.7,.4,-.6,.1,.8,.8,0x151515)]},
-{len:11,wid:2.5,vm:8,w:.1,tint:[0x2e7d32,0x1565c0,0xc62828,0xef6c00],g:[B_(0,1.6,0,2.5,2.4,11,WG),B_(0,2.1,0,2.54,.8,10.2,GL_),B_(0,2.1,5.52,2.2,.9,.05,GL_),B_(0,2.85,0,2.3,.1,10.6,0xd0d0d0),
+{len:11,wid:2.5,vm:8,w:.02,tint:[0xc62828],g:[B_(0,1.6,0,2.5,2.4,11,WG),B_(0,2.1,0,2.54,.8,10.2,GL_),B_(0,2.1,5.52,2.2,.9,.05,GL_),B_(0,2.85,0,2.3,.1,10.6,0xd0d0d0),
   wh(-1.25,3.6,.5,.3),wh(1.25,3.6,.5,.3),wh(-1.25,-3.6,.5,.3),wh(1.25,-3.6,.5,.3)]},
-{len:7.5,wid:2.5,vm:8,w:.08,tint:[0xff8f00,0x1565c0,0x43a047,0x757575],g:[B_(0,1.5,2.7,2.4,2.2,2,WG),B_(0,1.9,3.72,2.2,.8,.05,GL_),B_(0,1.9,-.9,2.5,2.6,5.6,0xe0e0e0),B_(0,.55,0,1.6,.3,7.2,0x333333),
+{len:7.5,wid:2.5,vm:8,w:.05,tint:[0xff8f00,0x1565c0,0x43a047,0x757575],g:[B_(0,1.5,2.7,2.4,2.2,2,WG),B_(0,1.9,3.72,2.2,.8,.05,GL_),B_(0,1.9,-.9,2.5,2.6,5.6,0xe0e0e0),B_(0,.55,0,1.6,.3,7.2,0x333333),
   wh(-1.1,2.7,.45),wh(1.1,2.7,.45),wh(-1.1,-1.2,.45),wh(1.1,-1.2,.45),wh(-1.1,-2.6,.45),wh(1.1,-2.6,.45)]},
-{len:4,wid:1.9,vm:11,w:.08,tint:[0x556b2f,0x8d6e63,0x37474f],g:[B_(0,.75,0,1.9,.7,4,WG),B_(0,1.4,-.3,1.8,.65,2.6,WG),B_(0,1.45,-.3,1.84,.35,2.3,GL_),B_(0,.8,-2.15,.8,.8,.2,0x222222),
+{len:4,wid:1.9,vm:11,w:.05,tint:[0x556b2f,0x8d6e63,0x37474f],g:[B_(0,.75,0,1.9,.7,4,WG),B_(0,1.4,-.3,1.8,.65,2.6,WG),B_(0,1.45,-.3,1.84,.35,2.3,GL_),B_(0,.8,-2.15,.8,.8,.2,0x222222),
   wh(-.95,1.3,.4),wh(.95,1.3,.4),wh(-.95,-1.3,.4),wh(.95,-1.3,.4)]},
-{len:4.5,wid:1.8,vm:12,w:.06,g:[B_(0,.6,0,1.8,.5,4.5,0xf5f5f5),B_(0,.6,0,1.84,.2,4.3,0x1a237e),B_(0,1.1,-.2,1.6,.5,2.3,0xf5f5f5),B_(0,1.15,-.2,1.64,.28,2,GL_),B_(-.3,1.45,-.2,.5,.14,.35,0xff1744),B_(.3,1.45,-.2,.5,.14,.35,0x2979ff),
+{len:4.5,wid:1.8,vm:12,w:.02,g:[B_(0,.6,0,1.8,.5,4.5,0xf5f5f5),B_(0,.6,0,1.84,.2,4.3,0x1a237e),B_(0,1.1,-.2,1.6,.5,2.3,0xf5f5f5),B_(0,1.15,-.2,1.64,.28,2,GL_),B_(-.3,1.45,-.2,.5,.14,.35,0xff1744),B_(.3,1.45,-.2,.5,.14,.35,0x2979ff),
   wh(-.9,1.4,.35),wh(.9,1.4,.35),wh(-.9,-1.4,.35),wh(.9,-1.4,.35)]},
-{len:5.5,wid:2.1,vm:13,w:.04,g:[B_(0,1.55,-.3,2.1,2,4.4,0xf5f5f5),B_(0,1.1,2.1,2,1.2,1.4,0xf5f5f5),B_(0,1.4,2.82,1.8,.6,.05,GL_),B_(0,1.4,-.3,2.14,.28,4.4,0xe53935),B_(0,2.62,1.9,1.2,.14,.3,0xff1744),
-  wh(-1,1.8,.42),wh(1,1.8,.42),wh(-1,-1.8,.42),wh(1,-1.8,.42)]}];
+{len:5.5,wid:2.1,vm:13,w:.01,g:[B_(0,1.55,-.3,2.1,2,4.4,0xf5f5f5),B_(0,1.1,2.1,2,1.2,1.4,0xf5f5f5),B_(0,1.4,2.82,1.8,.6,.05,GL_),B_(0,1.4,-.3,2.14,.28,4.4,0xe53935),B_(0,2.62,1.9,1.2,.14,.3,0xff1744),
+  wh(-1,1.8,.42),wh(1,1.8,.42),wh(-1,-1.8,.42),wh(1,-1.8,.42)]},
+{len:10.8,wid:2.5,vm:7.5,w:.02,tint:[0xc62828]},   // ৮ বিআরটিসি ডবল ডেকার
+{len:11,wid:2.5,vm:8,w:.03,tint:[0x1565c0]},       // ৯ আলম এশিয়া
+{len:11,wid:2.5,vm:8,w:.03,tint:[0x2e7d32]},       // ১০ সৌখিন
+{len:11,wid:2.5,vm:8,w:.03,tint:[0xef6c00]},       // ১১ হানিফ
+{len:2.9,wid:1.4,vm:9,w:.14},                      // ১২ সিএনজি
+{len:3,wid:1.3,vm:6.5,w:.08,tint:[0xffd54f,0x66bb6a,0x42a5f5,0xef5350,0xffa726]},   // ১৩ অটো (ই-রিকশা)
+{len:2.2,wid:.6,vm:4.2,w:.09},                     // ১৪ সাইকেল
+{len:2.4,wid:1.4,vm:4,w:.10}];
 const pickT=()=>{let r=Math.random();for(let i=0;i<VT.length;i++){r-=VT[i].w;if(r<0)return i;}return 0;};
 const V=[],dm2=new T.Object3D(),VG=VT.map((t,i)=>MB.veh(i,!HQ)),VM=VT.map((t,i)=>{const m=new T.InstancedMesh(VG[i].b,WM,NV);m.setColorAt(0,CC.setHex(0xffffff));m.frustumCulled=false;m.count=0;m.visible=false;m.castShadow=!!HQ;scene.add(m);return m;});
 const LM=new T.MeshBasicMaterial({vertexColors:true}),XM=new T.MeshBasicMaterial({map:MB.ds}),
@@ -59,19 +67,24 @@ function vGap(v,x,z,hx,hz,len,wid,f){   // সামনের গাড়ি/�
   if(f&&v.hx*hx+v.hz*hz<-.3)return 1e9;   // উল্টো দিকের গাড়ি এড়াও (ডেডলক ঠেকাতে)
   return fw-(v.len+len)/2-1.4;
 }
+function bodyGap(v,x,z,r){   // সামনের মানুষ/প্রাণী/পুলিশের জন্য ফাঁক (r = তার ব্যাসার্ধ)
+  const dx=x-v.x,dz=z-v.z,fw=dx*v.hx+dz*v.hz;if(fw<=0||fw>25||Math.abs(-dx*v.hz+dz*v.hx)>v.wid/2+r+.6)return 1e9;return fw-v.len/2-r-1.2;
+}
 function vMove(v,dt){
   if((v.zt-=dt)<=0){v.zt=.6;v.vm=v.vb*zoneF(v)*EV.slow(v.x,v.z);}   // যানজট: এলাকা অনুযায়ী গতি কমে
   let gap=1e9;
-  if(v.ghost>0)v.ghost-=dt;else for(const o of V)if(o!==v){const g=vGap(v,o.x,o.z,o.hx,o.hz,o.len,o.wid,1);if(g<gap)gap=g;}
+  v.sw=0;let gv=1e9;for(const o of V)if(o!==v){const g=vGap(v,o.x,o.z,o.hx,o.hz,o.len,o.wid,1);if(g<gap)gap=g;if(g<gv)gv=g;}
   {const g=vGap(v,S.x,S.z,Math.sin(S.h),Math.cos(S.h),2.8,1.4,0);if(g<gap)gap=g;}
-  for(const o of PD){const dx=o.x-v.x,dz=o.z-v.z,fw=dx*v.hx+dz*v.hz;if(fw<=0||fw>25||Math.abs(-dx*v.hz+dz*v.hx)>v.wid/2+.9)continue;const g=fw-v.len/2-1.5;if(g<gap)gap=g;}   // পথচারীর জন্য থামো
+  for(const o of PD){if(o.y>.5)continue;const g=bodyGap(v,o.x+o.ox,o.z+o.oz,.3);if(g<gap)gap=g;}   // পথচারীর জন্য থামো
+  for(const a of NPC.ANI){if(a.y>.5||a.mode==='fly')continue;const g=bodyGap(v,a.x+a.ox,a.z+a.oz,a.k==='goat'?.5:.25);if(g<gap)gap=g;}   // গরু-ছাগল-হাঁস
+  for(const p of PO){const g=bodyGap(v,p.x,p.z,.45);if(g<gap)gap=g;}   // ট্রাফিক পুলিশ
   {const g=EV.gap(v,dt);if(g<gap)gap=g;}
   let tv=Math.min(v.vm,gap<1e8?Math.sqrt(8*Math.max(0,gap)):99);
   if(v.arc)tv=Math.min(tv,5);
   else if(v.off>=0){const st=sigSt(v.ax,v.off),g=v.d*((v.nj-v.d*v.stop)-(v.p+v.d*v.len/2));   // লাল/হলুদে স্টপ-লাইনে থামো
-    if(st>0&&g>-1&&!(st===1&&g<Math.max(4,v.v*v.v/10)))tv=Math.min(tv,Math.sqrt(8*Math.max(0,g)));}
+    if(st>0&&g>-1&&!(st===1&&g<Math.max(4,v.v*v.v/10))){v.sw=1;tv=Math.min(tv,Math.sqrt(8*Math.max(0,g)));}}
   v.v=Math.max(0,v.v+clamp(tv-v.v,-9*dt,2.6*dt));
-  if(v.v<.3&&gap<2){if((v.stuck+=dt)>8){v.ghost=3;v.stuck=0;}}else v.stuck=Math.max(0,v.stuck-dt);
+  if(v.v<.3&&gv<2&&!v.sw){if((v.stuck+=dt)>(Math.hypot(v.x-S.x,v.z-S.z)>45?9:30))v.dead=1;}else v.stuck=Math.max(0,v.stuck-dt);   // আটকে গেলে (দূরে হলে দ্রুত) সরিয়ে ফেলো, কারো ভেতর দিয়ে যাবে না
   if(v.arc){
     const a=v.arc,t=a.t;a.u=Math.min(1,a.u+v.v*dt/a.len);const u=a.u,q=1-u,
     tx=2*q*(a.C[0]-a.A[0])+2*u*(a.B[0]-a.C[0]),tz=2*q*(a.C[1]-a.A[1])+2*u*(a.B[1]-a.C[1]),tl=Math.hypot(tx,tz)||1;
@@ -103,15 +116,57 @@ function vSpawn(){   // প্লেয়ারের আশেপাশের 
     if(Math.random()>(zoneF({ax,L:l,x,z})<.7?1:.22))continue;   // বাজার/মেইন রোডে ঘনত্ব বেশি
     if(Math.abs((ax?nextZ(p,d):nextX(p,d))-p)<25)continue;
     if(V.some(o=>Math.hypot(o.x-x,o.z-z)<(o.len+Y.len)/2+7))continue;
+    const sr=Y.len/2+2.5;if(PD.some(o=>Math.hypot(o.x-x,o.z-z)<sr)||NPC.ANI.some(a=>Math.hypot(a.x-x,a.z-z)<sr)||PO.some(o=>Math.hypot(o.x-x,o.z-z)<sr)||EV.hit(x,z,Y.len/2+2))continue;   // মানুষ/প্রাণী/ঘটনার জায়গায় জন্মাবে না
     const v={t,ax,L:l,d,p,len:Y.len,wid:Y.wid,vb:Y.vm*(.85+Math.random()*.25),vm:0,zt:0,tint:Y.tint?Y.tint[(Math.random()*Y.tint.length)|0]:0xffffff,arc:null,stuck:0,ghost:0,x,z,hx:0,hz:0};
     v.vm=v.vb*zoneF(v);v.v=v.vm*.7;vNext(v);vPlace(v);V.push(v);return;
   }
+}
+/* ---------- ওভারল্যাপ-রক্ষক: কেউ কারো ভেতরে ঢুকে গেলে ঠেলে সরানো (বাগ-ঢাল) ---------- */
+let rsT=0;const PV={x:0,z:0,hx:0,hz:1,len:2.8,wid:1.4};   // PV = প্লেয়ারের রিকশার বক্স
+function pushOut(v,x,z,r){   // গাড়ির বক্স থেকে r-ব্যাসার্ধের বৃত্ত বের করার সরণ-ভেক্টর; ছেদ না থাকলে null
+  const dx=x-v.x,dz=z-v.z,lz=dx*v.hx+dz*v.hz,lx=-dx*v.hz+dz*v.hx,hl=v.len/2,hw=v.wid/2,cz=Math.max(-hl,Math.min(hl,lz)),cx=Math.max(-hw,Math.min(hw,lx)),ez0=lz-cz,ex0=lx-cx,d=Math.hypot(ez0,ex0);
+  if(d>=r)return null;let ez,ex;
+  if(d>1e-4){ez=ez0/d*(r-d);ex=ex0/d*(r-d);}else{const a=hl-Math.abs(lz),b=hw-Math.abs(lx);if(a<b){ez=(lz>=0?1:-1)*(a+r);ex=0;}else{ex=(lx>=0?1:-1)*(b+r);ez=0;}}
+  return[ez*v.hx-ex*v.hz,ez*v.hz+ex*v.hx];
+}
+function obbDepth(a,b){   // দুই বক্সের ছেদের গভীরতা (০ = ছেদ নেই)
+  const ha=[a.len/2,a.wid/2],hb=[b.len/2,b.wid/2],dx=b.x-a.x,dz=b.z-a.z;let m=1e9;
+  for(const[x,z]of[[a.hx,a.hz],[-a.hz,a.hx],[b.hx,b.hz],[-b.hz,b.hx]]){
+    const ra=ha[0]*Math.abs(a.hx*x+a.hz*z)+ha[1]*Math.abs(-a.hz*x+a.hx*z),rb=hb[0]*Math.abs(b.hx*x+b.hz*z)+hb[1]*Math.abs(-b.hz*x+b.hx*z),o=ra+rb-Math.abs(dx*x+dz*z);
+    if(o<=0)return 0;if(o<m)m=o;}
+  return m;
+}
+function yieldBack(v,d){v.v=0;if(v.arc){const a=v.arc;a.u=Math.max(0,a.u-d/a.len);}else{v.p-=v.d*d;vPlace(v);}}   // গাড়ি নিজের লেনে পেছনে সরে
+function playerPush(){   // প্লেয়ারের রিকশা ↔ মানুষ/প্রাণী: কেউ ভেতরে ঢুকবে না (প্রতি ফ্রেম)
+  PV.x=S.x;PV.z=S.z;PV.hx=Math.sin(S.h);PV.hz=Math.cos(S.h);
+  for(const o of PD){if(o.y>.5)continue;const f=pushOut(PV,o.x+o.ox,o.z+o.oz,.3);if(f){NPC.nudge(o,f[0]*1.05,f[1]*1.05);S.v*=.98;}}
+  for(const a of NPC.ANI){if(a.y>.5||a.mode==='fly')continue;const f=pushOut(PV,a.x+a.ox,a.z+a.oz,a.k==='goat'?.5:.25);if(f){NPC.nudge(a,f[0]*1.05,f[1]*1.05);S.v*=.98;}}
+  for(const p of PO){const f=pushOut(PV,p.x,p.z,.45);if(f){S.x-=f[0];S.z-=f[1];S.v*=.9;}}
+}
+function overlapPass(){   // প্রতি ০.৪ সেকেন্ডে: গাড়ি-গাড়ি, গাড়ি-মানুষ/প্রাণী/পুলিশ/ঘটনার দল, মানুষ-মানুষ
+  for(let i=0;i<V.length;i++){const a=V[i];
+    for(let j=i+1;j<V.length;j++){const b=V[j],r=(a.len+b.len)/2+.5;if(Math.abs(a.x-b.x)>r||Math.abs(a.z-b.z)>r)continue;
+      const d=obbDepth(a,b);if(d<=.02)continue;
+      const fa=(b.x-a.x)*a.hx+(b.z-a.z)*a.hz,fb=(a.x-b.x)*b.hx+(a.z-b.z)*b.hz;let y;
+      if(fa>0&&fb>0)y=a.v<=b.v?a:b;else if(fa>0)y=a;else y=b;   // যার সামনে অন্যজন, সে পেছনে সরবে
+      yieldBack(y,Math.min(2,d+.15));}}
+  for(const v of V){
+    for(const o of PD){if(o.y>.5)continue;const x=o.x+o.ox,z=o.z+o.oz;if(Math.abs(x-v.x)>v.len/2+1||Math.abs(z-v.z)>v.len/2+1)continue;const f=pushOut(v,x,z,.3);if(f)NPC.nudge(o,f[0]*1.05,f[1]*1.05);}
+    for(const a of NPC.ANI){if(a.y>.5||a.mode==='fly')continue;const x=a.x+a.ox,z=a.z+a.oz;if(Math.abs(x-v.x)>v.len/2+1||Math.abs(z-v.z)>v.len/2+1)continue;const f=pushOut(v,x,z,a.k==='goat'?.5:.25);if(f)NPC.nudge(a,f[0]*1.05,f[1]*1.05);}
+    for(const p of PO){const f=pushOut(v,p.x,p.z,.45);if(f)yieldBack(v,Math.min(2,Math.hypot(f[0],f[1])+.2));}
+    for(const e of EV.list){if(Math.abs(e.x-v.x)>60||Math.abs(e.z-v.z)>60)continue;for(const o of e.ob){const f=pushOut(v,o.x,o.z,o.r);if(f){yieldBack(v,Math.min(2,Math.hypot(f[0],f[1])+.2));break;}}}
+  }
+  for(let i=0;i<PD.length;i++){const a=PD[i];if(a.y>.5)continue;
+    for(let j=i+1;j<PD.length;j++){const b=PD[j];if(b.y>.5||a.pt===b||b.pt===a)continue;
+      const dx=b.x+b.ox-a.x-a.ox,dz=b.z+b.oz-a.z-a.oz;if(Math.abs(dx)>.4||Math.abs(dz)>.4)continue;const d=Math.hypot(dx,dz);if(d>=.35)continue;
+      const k=d>1e-3?(.35-d)/2/d:0,ux=d>1e-3?dx*k:.1,uz=d>1e-3?dz*k:0;NPC.nudge(a,-ux,-uz);NPC.nudge(b,ux,uz);}}
 }
 function trafficStep(dt){
   tClock+=dt;
   for(let i=V.length-1;i>=0;i--)if(V[i].dead||Math.hypot(V[i].x-S.x,V[i].z-S.z)>230)V.splice(i,1);   // দূরে গেলে মুছে যাবে
   if(V.length<NV){spawnT2-=dt;if(spawnT2<=0){vSpawn();spawnT2=.25+Math.random()*.45;}}
   for(const v of V)vMove(v,dt);
+  playerPush();if((rsT-=dt)<=0){rsT=.4;overlapPass();}
   pedStep(dt);
 }
 function trafficReset(){V.length=0;PD.length=0;tClock=Math.random()*CYC;sigKey='';for(let i=0;i<110&&V.length<NV;i++)vSpawn();NPC.reset();spawnT2=.6;}
