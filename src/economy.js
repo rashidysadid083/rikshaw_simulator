@@ -57,8 +57,8 @@ const PG=(()=>{
  pm.onclick=e=>{const b=e.target.closest('button');if(b&&!b.disabled)act(b.dataset.a);};
  $('gb').onclick=()=>{modal=true;stop();gar();};
  addEventListener('pagehide',save);
- paint();if(P.sh.fin){modal=true;sum();}hud();
- return{P,PTY,modal:()=>modal,vmax:()=>9.5*(1+.07*P.u.t),
+ function init(){paint();if(P.sh.fin){modal=true;sum();}hud();}
+ return{init,P,PTY,modal:()=>modal,vmax:()=>9.5*(1+.07*P.u.t),
   board(t){t.rush=!!t.ty.rush;t.left=t.rush?Math.round(t.d/5.5+30):0;toast(t.ty.ic+' "'+t.ty.l1+'"'+(t.rush?' ⏳ সময়মতো পৌঁছালে বেশি বখশিশ':''));},
   arrive(t){const y=t.ty,m=1+.5*P.u.s,s=P.sh;let tip=0,line=y.l2,ex='';
    if(t.rush){if(t.left>0)tip=Math.round(40*m/5)*5;else line='দেরি হয়ে গেল... যাক, নামিয়ে দিন।';}else if(Math.random()<.4)tip=Math.round(rd(5,20)*m/5)*5;

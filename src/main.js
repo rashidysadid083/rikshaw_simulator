@@ -11,6 +11,7 @@ import { EV } from './events.js';
 import { PG } from './economy.js';
 import { horn } from './audio.js';
 
+PG.init();
 let lastLoc='',hk=0,ht=0,lp=0;
 function step(dt){
   S.st+=((inp.r-inp.l)-S.st)*Math.min(1,7*dt);
